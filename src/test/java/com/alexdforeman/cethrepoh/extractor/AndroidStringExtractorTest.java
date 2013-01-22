@@ -10,7 +10,7 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.alexdforeman.cethrepoh;
+package com.alexdforeman.cethrepoh.extractor;
 
 import java.io.File;
 import java.util.Collection;
@@ -29,26 +29,19 @@ import com.alexdforeman.cethrepoh.extractor.AndroidStringsExtractor;
 public class AndroidStringExtractorTest {
 
 	@Test
-	public void testSanitizedInput() {
+	public void testUnSanitizedInput() {
 
 		AndroidStringsExtractor extractor = new AndroidStringsExtractor(new File(
-				"src/test/resources/strings.xml"));
+				"src/test/resources/sources/android.xml"));
 
 		Collection<String> extractWords = extractor.extractWords();
-		Assert.assertTrue(extractWords.size() == 14);
-		Assert.assertTrue(extractWords.contains("capitals"));
-		Assert.assertTrue(extractWords.contains("to"));
-		Assert.assertTrue(extractWords.contains("going"));
-		Assert.assertTrue(extractWords.contains("comma"));
-		Assert.assertTrue(extractWords.contains("numb3rs"));
+		Assert.assertTrue(extractWords.size() == 7);
+		Assert.assertTrue(extractWords.contains("this"));
+		Assert.assertTrue(extractWords.contains("is"));
 		Assert.assertTrue(extractWords.contains("a"));
-		Assert.assertTrue(extractWords.contains("fullstop"));
-		Assert.assertTrue(extractWords.contains("that"));
-		Assert.assertTrue(extractWords.contains("are"));
-		Assert.assertTrue(extractWords.contains("1234567890"));
+		Assert.assertTrue(extractWords.contains("long"));
 		Assert.assertTrue(extractWords.contains("string"));
-		Assert.assertTrue(extractWords.contains("against"));
-		Assert.assertTrue(extractWords.contains("match"));
-		Assert.assertTrue(extractWords.contains("we"));
+		Assert.assertTrue(extractWords.contains("seplt"));
+		Assert.assertTrue(extractWords.contains("wrongyl"));
 	}
 }
