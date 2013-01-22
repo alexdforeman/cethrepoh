@@ -35,6 +35,7 @@ public class AndroidStringExtractorTest {
 				"src/test/resources/sources/android.xml"));
 
 		Collection<String> extractWords = extractor.extractWords();
+		Assert.assertNotNull(extractWords);
 		Assert.assertTrue(extractWords.size() == 7);
 		Assert.assertTrue(extractWords.contains("this"));
 		Assert.assertTrue(extractWords.contains("is"));

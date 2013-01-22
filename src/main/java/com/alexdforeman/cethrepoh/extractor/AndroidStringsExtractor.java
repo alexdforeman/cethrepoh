@@ -27,9 +27,8 @@ import nu.xom.ParsingException;
 /**
  * 
  * Takes a res/values/strings.xml file for an android application and extracts all english words. 
+ * TODO enable the ability to drag words out of string-array inside the file.
  * 
- * FIXME  BETA IMPL
- *
  * @author Alex Foreman at https://github.com/alexdforeman
  */
 public class AndroidStringsExtractor extends AbstractFileExtractor {

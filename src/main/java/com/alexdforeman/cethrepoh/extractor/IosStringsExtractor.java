@@ -12,8 +12,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  */
 package com.alexdforeman.cethrepoh.extractor;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.HashSet;
 
 
 /**
@@ -26,8 +32,8 @@ import java.util.Collection;
  */
 public class IosStringsExtractor extends AbstractFileExtractor{
 
-	public IosStringsExtractor(File file) {
-		super(file);
+	public IosStringsExtractor(File file_) {
+		super(file_);
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +41,26 @@ public class IosStringsExtractor extends AbstractFileExtractor{
 	 */
 	@Override
 	public Collection<String> extractWords() {
-		return null;
+		Collection<String> strings = new HashSet<>();
+		
+		try (FileInputStream fis = new FileInputStream(getFile());
+		        DataInputStream in = new DataInputStream(fis);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+			String strLine;
+			while ((strLine = br.readLine()) != null) {
+				System.out.println(strLine);
+				if(!strLine.trim().equals("") && !strLine.trim().startsWith("//")){
+					// FIXME this works but is nasty
+					String[] splitString =
+							strLine.substring(strLine.indexOf("=") + 1).replaceAll(";", "").replaceAll("\"", "").trim().split(" ");
+					for (String string : splitString) {
+						strings.add(string.toLowerCase());
+					}
+				}
+			}	
+		} catch (IOException ioe_){
+			throw new RuntimeException("Something went wrong whilst reading the .strings file", ioe_);
+		}	
+		return strings;
 	}
-
 }

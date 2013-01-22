@@ -25,7 +25,9 @@ public class IosStringExtractorTest {
 		IosStringsExtractor extractor = new IosStringsExtractor(new File(
 				"src/test/resources/sources/ios.strings"));
 
+		
 		Collection<String> extractWords = extractor.extractWords();
+		Assert.assertNotNull(extractWords);
 		Assert.assertTrue(extractWords.size() == 7);
 		Assert.assertTrue(extractWords.contains("this"));
 		Assert.assertTrue(extractWords.contains("is"));
