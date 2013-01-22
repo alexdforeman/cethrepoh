@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alexdforeman.cethrepoh.dictionary.DictionarySource;
-import com.alexdforeman.cethrepoh.dictionary.LinuxWords;
+import com.alexdforeman.cethrepoh.dictionary.WordsFileSource;
 import com.alexdforeman.cethrepoh.extractor.AndroidStringsExtractor;
 import com.alexdforeman.cethrepoh.extractor.WordExtractor;
 import com.alexdforeman.cethrepoh.output.OutputGenerator;
@@ -53,9 +53,11 @@ public class Cethrepoh {
 	}
 	
 	public static void main(String[] args) {
-		new Cethrepoh(new LinuxWords(), 
+		new Cethrepoh(new WordsFileSource(), 
 				new AndroidStringsExtractor(
-						new File("/home/alex/strings.xml")), 
+//						new File("/home/alex/Development/github/cethrepoh/src/test/resources/strings.xml")),
+						new File("/var/git/android-app/res/values/strings.xml")),
+						
 				new StandardOutputGenerator());
 	}
 }

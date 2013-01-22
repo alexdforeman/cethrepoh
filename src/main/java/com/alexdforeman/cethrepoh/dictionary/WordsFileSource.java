@@ -23,29 +23,62 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 /**
- * 
+ *
  * This Class looks for the local install on linux of the words file.
- * 
+ *
  * Currently hardcoded to /usr/share/dict/words
  *
  * @author Alex Foreman at https://github.com/alexdforeman
  */
-public class LinuxWords implements DictionarySource {
+public class WordsFileSource implements DictionarySource {
+	
+	private File _dictionary;
+   
+    /**
+     * Default Constructor
+     * Tries to find a dictionary as per: http://en.wikipedia.org/wiki/Words_%28Unix%29
+     * Looks at: /usr/share/dict/words
+     */
+    public WordsFileSource() {
+        this("/usr/share/dict/words");
+    }
+   
+    /**
+     * Takes a path to a File which should be a new line delimited file with a distinct word on each one as a verified source.
+     * @param wordsFile_
+     */
+    public WordsFileSource(String pathToFile_) {
+        this(new File(pathToFile_));
+       
+    }
+   
+    /**
+     * Takes a File which should be a new line delimited file with a distinct word on each one as a verified source.
+     * @param wordsFile_
+     */
+    public WordsFileSource(File wordsFile_) {
+       if(!wordsFile_.exists() || !wordsFile_.isFile()) {
+    	   throw new IllegalArgumentException("File: " + wordsFile_.getAbsolutePath() + " does not exist mis not a file.");
+       } 
+       _dictionary = wordsFile_;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.alexdforeman.cethrepoh.dictionary.DictionarySource#getDictionary()
-	 */
-	@Override
-	public Collection<String> getDictionary() {
-		Set<String> strings = new HashSet<>();
-		try {
-			List<String> lines = Files.readLines(new File("/usr/share/dict/words"), Charsets.UTF_8);
-			for (String string : lines) {
-				strings.add(string.trim().toLowerCase());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return strings;			
-	}
+   
+
+    /* (non-Javadoc)
+     * @see com.alexdforeman.cethrepoh.dictionary.DictionarySource#getDictionary()
+     */
+    @Override
+    public Collection<String> getDictionary() {
+        Set<String> strings = new HashSet<>();
+        try {
+            List<String> lines = Files.readLines(_dictionary, Charsets.UTF_8);
+            for (String string : lines) {
+                strings.add(string.trim().toLowerCase());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return strings;           
+    }
 }
