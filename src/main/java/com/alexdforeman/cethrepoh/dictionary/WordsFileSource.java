@@ -24,9 +24,10 @@ import com.google.common.io.Files;
 
 /**
  *
- * This Class looks for the local install on linux of the words file.
+ * This Class Takes a File Object or a String path to a words file which should be a new line delimited file with a 
+ * distinct word on each one as a verified source.
  *
- * Currently hardcoded to /usr/share/dict/words
+ * Currently default constructor hard-coded to /usr/share/dict/words
  *
  * @author Alex Foreman at https://github.com/alexdforeman
  */
@@ -58,7 +59,7 @@ public class WordsFileSource implements DictionarySource {
      */
     public WordsFileSource(File wordsFile_) {
        if(!wordsFile_.exists() || !wordsFile_.isFile()) {
-    	   throw new IllegalArgumentException("File: " + wordsFile_.getAbsolutePath() + " does not exist mis not a file.");
+    	   throw new IllegalArgumentException("File: " + wordsFile_.getAbsolutePath() + " does not exist or is not a file.");
        } 
        _dictionary = wordsFile_;
     }

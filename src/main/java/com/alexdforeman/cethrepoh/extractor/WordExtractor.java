@@ -18,7 +18,7 @@ import java.util.Collection;
  * 
  * WordExtractors take a source and generate a list of Words to be checked from its source.
  * An example of this could be from a XML File or from a HTTP page.
- * It is presumed that the WordExtractor impl only passes the data that we want to check, and strips anything else
+ * It is presumed that the WordExtractor impl only passes the data that we want to check, and strips anything else.
  *
  * @author Alex Foreman at https://github.com/alexdforeman
  */

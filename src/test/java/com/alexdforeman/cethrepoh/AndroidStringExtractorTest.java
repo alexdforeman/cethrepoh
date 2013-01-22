@@ -32,7 +32,7 @@ public class AndroidStringExtractorTest {
 	public void testSanitizedInput() {
 
 		AndroidStringsExtractor extractor = new AndroidStringsExtractor(new File(
-				"/home/alex/workspace/cethrepoh/src/test/resources/strings.xml"));
+				"src/test/resources/strings.xml"));
 
 		Collection<String> extractWords = extractor.extractWords();
 		Assert.assertTrue(extractWords.size() == 14);

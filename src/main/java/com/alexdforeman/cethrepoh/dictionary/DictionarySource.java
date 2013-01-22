@@ -16,9 +16,9 @@ import java.util.Collection;
 
 /**
  * 
- * A Cethrepoh InputSource
+ * A Cethrepoh DictionarySource
  * 
- * Dictionary sources take a input such as a file and returns a Dictionary of Strings to be checked
+ * DictionarySources take a input such as a file and returns a dictionary of Strings to be checked
  *
  * @author Alex Foreman at https://github.com/alexdforeman
  */

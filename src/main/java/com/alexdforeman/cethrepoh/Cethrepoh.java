@@ -12,32 +12,47 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 package com.alexdforeman.cethrepoh;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.alexdforeman.cethrepoh.dictionary.DictionarySource;
-import com.alexdforeman.cethrepoh.dictionary.WordsFileSource;
-import com.alexdforeman.cethrepoh.extractor.AndroidStringsExtractor;
 import com.alexdforeman.cethrepoh.extractor.WordExtractor;
 import com.alexdforeman.cethrepoh.output.OutputGenerator;
-import com.alexdforeman.cethrepoh.output.StandardOutputGenerator;
 
 /**
- * Cethrepoh is a Spellchecker that requires a Dictionary and a list of Strings which are to be spellchecked and outputs
+ * Cethrepoh is a Spell checker that requires a Dictionary and a list of Strings which are to be spell checked and outputs
  * the verified data depending on its output generator
  *
  * @author Alex Foreman at https://github.com/alexdforeman
  */
 public class Cethrepoh {
 	
-	public Cethrepoh(DictionarySource source, WordExtractor extractor, OutputGenerator output) {
-		Collection<String> dictionary = source.getDictionary();
-		Collection<String> extractWords = extractor.extractWords();
-		
-		System.out.println("Total Dictionary size: " + dictionary.size());
-		System.out.println("Total words to check: " + extractWords.size());
+	private final DictionarySource _source;
+	private final WordExtractor _extractor;
+	private final OutputGenerator _output;
+	
+	/**
+	 * Constructor 
+	 * @param source_ {@link DictionarySource}
+	 * @param extractor_ {@link WordExtractor}
+	 * @param output_ {@link OutputGenerator}
+	 */
+	public Cethrepoh(DictionarySource source_, WordExtractor extractor_, OutputGenerator output_) {
+		if(source_ == null || extractor_ == null || output_ == null){
+			throw new IllegalArgumentException("One or more arguments to Cethrepoh are null");
+		}
+		_source = source_;  		
+		_extractor = extractor_;		
+		_output = output_;			
+	}
+	
+	/**
+	 * Verifies the words against the input and sends it to the provided Outputgenerator
+	 */
+	public void verify() {
+		Collection<String> dictionary = _source.getDictionary();
+		Collection<String> extractWords = _extractor.extractWords();
 		
 		Map<String, Object> wrongWords = new HashMap<>();
 		for (String string : extractWords) {
@@ -46,18 +61,6 @@ public class Cethrepoh {
 			}
 			
 		}
-		System.out.println("Wrong words: " + wrongWords.size());
-		
-		output.outputCorrections(wrongWords);
-		
-	}
-	
-	public static void main(String[] args) {
-		new Cethrepoh(new WordsFileSource(), 
-				new AndroidStringsExtractor(
-//						new File("/home/alex/Development/github/cethrepoh/src/test/resources/strings.xml")),
-						new File("/var/git/android-app/res/values/strings.xml")),
-						
-				new StandardOutputGenerator());
+		_output.outputCorrections(wrongWords);
 	}
 }
