@@ -14,46 +14,38 @@ package com.alexdforeman.cethrepoh.sanitize;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import com.google.common.collect.Sets;
 
 /**
  * 
- * This matches and removes any string that matches the regex.
- * 
- * Use for complex strings like emails / urls etc.
+ * TODO Explain the class
  * 
  * @author Alex Foreman at https://github.com/alexdforeman
  */
-public class RegexSanitizer implements Sanitizer {
+public class PunctuationSanitizer implements Sanitizer {
 	
-	public final static String _EMAIL_REGEX = "[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})";
-	public final static String _URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-	public final static String _NUMBER_REGEX = "^[0-9]+$";
-	
-	private final Pattern _PATTERN;
-
-	/**
-	 * Constructor 
-	 * @param regex_ the regex of the string we want to remove.
-	 */
-	public RegexSanitizer(String regex_){
-		_PATTERN = Pattern.compile(regex_);
-	}
+	public final static Collection<String> _DEFAULT_PUNCTUATION = Sets.newHashSet(
+			new String[] {",", "\\.", ":", "\\?", "!", "\\+", "_", "…", "\\(", "\\)", "-", "–"});
 
 	/* (non-Javadoc)
-	 * @see com.alexdforeman.cethrepoh.sanitize.Sanitizer#sanitize()
+	 * @see com.alexdforeman.cethrepoh.sanitize.Sanitizer#sanitize(java.util.Collection)
 	 */
 	@Override
-	public void sanitize(Collection<String> collection) {
-		Collection<String> remove = new HashSet<>();
+	public void sanitize(Collection<String> collection_) {
+		Collection<String> sanitizedStrings = new HashSet<>();
 		
-		for (String string : collection) {
-			Matcher m = _PATTERN.matcher(string);
-			if (m.matches()) {
-				remove.add(string);
+		for (String string : collection_) {
+			String newString = string;
+			for (String punctuation : _DEFAULT_PUNCTUATION) {
+				newString = newString.replaceAll(punctuation, "");
 			}
+			sanitizedStrings.add(newString.trim());
 		}
-		collection.removeAll(remove);
+		sanitizedStrings.remove("");
+		collection_.clear();
+		collection_.addAll(sanitizedStrings);
+		
 	}
+
 }

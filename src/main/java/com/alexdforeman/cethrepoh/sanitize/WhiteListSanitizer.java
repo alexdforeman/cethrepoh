@@ -14,46 +14,51 @@ package com.alexdforeman.cethrepoh.sanitize;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 
- * This matches and removes any string that matches the regex.
- * 
- * Use for complex strings like emails / urls etc.
+ * This class takes a list of whitelisted words that you want to remove from the spell check as they are 'correct'
+ * Examples of this might be 'google' 
  * 
  * @author Alex Foreman at https://github.com/alexdforeman
  */
-public class RegexSanitizer implements Sanitizer {
+public class WhiteListSanitizer implements Sanitizer {
 	
-	public final static String _EMAIL_REGEX = "[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})";
-	public final static String _URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-	public final static String _NUMBER_REGEX = "^[0-9]+$";
-	
-	private final Pattern _PATTERN;
+	private final Collection<String> WHITE_LIST;
 
 	/**
-	 * Constructor 
-	 * @param regex_ the regex of the string we want to remove.
+	 * Adds a String Collection as a WhiteList
+	 * @param whiteList_
 	 */
-	public RegexSanitizer(String regex_){
-		_PATTERN = Pattern.compile(regex_);
+	public WhiteListSanitizer(Collection<String> whiteList_) {
+		WHITE_LIST = whiteList_;
+	}
+
+	/**
+	 * Adds a String Collection as a WhiteList
+	 * @param whiteList_
+	 */
+	public WhiteListSanitizer(String[] whiteList_) {
+		
+		Collection<String> temp = new HashSet<>();
+		for (String string : whiteList_) {
+			temp.add(string);
+		}
+		WHITE_LIST = temp;
 	}
 
 	/* (non-Javadoc)
-	 * @see com.alexdforeman.cethrepoh.sanitize.Sanitizer#sanitize()
+	 * @see com.alexdforeman.cethrepoh.sanitize.Sanitizer#sanitize(java.util.Collection)
 	 */
 	@Override
 	public void sanitize(Collection<String> collection) {
-		Collection<String> remove = new HashSet<>();
-		
-		for (String string : collection) {
-			Matcher m = _PATTERN.matcher(string);
-			if (m.matches()) {
-				remove.add(string);
+		Collection<String> removeStrings = new HashSet<>();
+		for (String string : WHITE_LIST) {
+			if(collection.contains(string)){
+				removeStrings.add(string);
 			}
 		}
-		collection.removeAll(remove);
+		collection.removeAll(removeStrings);
 	}
+
 }

@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
@@ -32,6 +34,8 @@ import com.google.common.io.Files;
  * @author Alex Foreman at https://github.com/alexdforeman
  */
 public class WordsFileSource implements DictionarySource {
+	
+	private Logger _LOGGER = Logger.getLogger(getClass());
 	
 	private File _dictionary;
    
@@ -80,6 +84,7 @@ public class WordsFileSource implements DictionarySource {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        _LOGGER.info("Size of returned Dictionary: " + strings.size());
         return strings;           
     }
 }
