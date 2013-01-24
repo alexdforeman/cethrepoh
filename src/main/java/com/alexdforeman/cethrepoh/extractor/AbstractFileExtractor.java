@@ -13,6 +13,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 package com.alexdforeman.cethrepoh.extractor;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import com.alexdforeman.cethrepoh.sanitize.Sanitizer;
 
 
 /**
@@ -25,12 +29,39 @@ import java.io.File;
 public abstract class AbstractFileExtractor implements WordExtractor {
 	
 	private final File _file;
+	
+	private final Collection<Sanitizer> _SANITIZERS = new ArrayList<>();
 
+	/**
+	 * Constructor
+	 * @param file_ The file we want to check for spelling mistakes
+	 */
 	public AbstractFileExtractor(final File file_) {
 		_file = file_;
 	}
 
+	/**
+	 * Get the file
+	 * @return {@link File}
+	 */
 	public File getFile() {
 		return _file;
+	}
+	
+	/**
+	 * Add a {@link Sanitizer} to the {@link WordExtractor}
+	 */
+	public void addSanitizer(Sanitizer sanitizer_){
+		_SANITIZERS.add(sanitizer_);
+	}
+	
+	/**
+	 * This runs over all Sanitizers that have been added to the extractor and applys them to the passed Collection
+	 * @param strings
+	 */
+	public void sanitize(Collection<String> strings){
+		for (Sanitizer sanitizer : _SANITIZERS) {
+			sanitizer.sanitize(strings);
+		}
 	}
 }

@@ -10,58 +10,49 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.alexdforeman.cethrepoh.extractor;
+package com.alexdforeman.cethrepoh.sanitize;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashSet;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 
- * IosStringsExtractor parses a ios .strings file in the format
- * "key" = "value";
- * To extract all the words ready for parsing.
+ * This matches and removes any string that matches the regex.
+ * 
+ * Use for complex strings like emails / urls etc.
  * 
  * @author Alex Foreman at https://github.com/alexdforeman
  */
-public class IosStringsExtractor extends AbstractFileExtractor{
+public class RegexSanitizer implements Sanitizer {
+	
+	public final static String _EMAIL_REGEX = "[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})";
+	public final static String _URL_REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+	
+	private final Pattern _PATTERN;
 
-	public IosStringsExtractor(File file_) {
-		super(file_);
+	/**
+	 * Constructor 
+	 * @param regex_ the regex of the string we want to remove.
+	 */
+	public RegexSanitizer(String regex_){
+		_PATTERN = Pattern.compile(regex_);
 	}
 
 	/* (non-Javadoc)
-	 * @see com.alexdforeman.cethrepoh.extractor.WordExtractor#extractWords()
+	 * @see com.alexdforeman.cethrepoh.sanitize.Sanitizer#sanitize()
 	 */
 	@Override
-	public Collection<String> extractWords() {
-		Collection<String> strings = new HashSet<>();
+	public void sanitize(Collection<String> collection) {
+		Collection<String> remove = new HashSet<>();
 		
-		try (FileInputStream fis = new FileInputStream(getFile());
-		        DataInputStream in = new DataInputStream(fis);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-			String strLine;
-			while ((strLine = br.readLine()) != null) {
-				if(!strLine.trim().equals("") && !strLine.trim().startsWith("//")){
-
-					// FIXME this works but is nasty
-					String[] splitString =
-							strLine.substring(strLine.indexOf("=") + 1).replaceAll(";", "").replaceAll("\"", "").trim().split(" ");
-					for (String string : splitString) {
-						strings.add(string.toLowerCase());
-					}
-				}
-			}	
-		} catch (IOException ioe_){
-			throw new RuntimeException("Something went wrong whilst reading the .strings file", ioe_);
+		for (String string : collection) {
+			Matcher m = _PATTERN.matcher(string);
+			if (m.matches()) {
+				remove.add(string);
+			}
 		}
-		sanitize(strings);
-		return strings;
+		collection.removeAll(remove);
 	}
 }

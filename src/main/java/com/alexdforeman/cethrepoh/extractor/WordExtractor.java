@@ -14,6 +14,8 @@ package com.alexdforeman.cethrepoh.extractor;
 
 import java.util.Collection;
 
+import com.alexdforeman.cethrepoh.sanitize.Sanitizer;
+
 /**
  * 
  * WordExtractors take a source and generate a list of Words to be checked from its source.
@@ -24,5 +26,15 @@ import java.util.Collection;
  */
 public interface WordExtractor {
 
+	/**
+	 * This tells the WordExtractor to return the list of words to check from its input source(s)
+	 * @return {@link Collection}<{@link String}>
+	 */
 	public Collection<String> extractWords();
+	
+	/**
+	 * Add a Sanitizer to the WordExtractors collection.
+	 * @param sanitizer_
+	 */
+	public void addSanitizer(Sanitizer sanitizer_);
 }

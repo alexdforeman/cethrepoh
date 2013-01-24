@@ -55,11 +55,13 @@ public class AndroidStringsExtractor extends AbstractFileExtractor {
 		} catch (ParsingException | IOException e) {
 			e.printStackTrace();
 		}
+		sanitize(strings);
 		return strings;
 	}
 
 	/*
 	 * Converts a string into all its component words.
+	 * TODO update to the new Sanitizer API
 	 */
 	private Set<String> sanitize(String value) {
 		Set<String> set = new HashSet<>();
