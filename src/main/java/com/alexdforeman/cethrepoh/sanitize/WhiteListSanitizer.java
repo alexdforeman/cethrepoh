@@ -1,64 +1,64 @@
 /*
-Copyright (c) 2013, Alex Foreman at https://github.com/alexdforeman
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    Neither the name of the <ORGANIZATION> nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+ * Copyright (c) 2013, Alex Foreman at https://github.com/alexdforeman
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ *
+ *  Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *  Neither the name of the <ORGANIZATION> nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 package com.alexdforeman.cethrepoh.sanitize;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * 
- * This class takes a list of whitelisted words that you want to remove from the spell check as they are 'correct'
- * Examples of this might be 'google' 
- * 
+ *
+ * This class takes a list of whitelisted words that you want to remove from the spell check as they are 'correct'.
+ * Examples of this might be 'google'
+ *
  * @author Alex Foreman at https://github.com/alexdforeman
  */
 public class WhiteListSanitizer implements Sanitizer {
-	
-	private final Collection<String> WHITE_LIST;
 
-	/**
-	 * Adds a String Collection as a WhiteList
-	 * @param whiteList_
-	 */
-	public WhiteListSanitizer(Collection<String> whiteList_) {
-		WHITE_LIST = whiteList_;
-	}
+    private final Collection<String> _WHITE_LIST;
 
-	/**
-	 * Adds a String Collection as a WhiteList
-	 * @param whiteList_
-	 */
-	public WhiteListSanitizer(String[] whiteList_) {
-		
-		Collection<String> temp = new HashSet<>();
-		for (String string : whiteList_) {
-			temp.add(string);
-		}
-		WHITE_LIST = temp;
-	}
+    /**
+     * Adds a String Collection as a WhiteList.
+     * @param whiteList_ Collection<String>
+     */
+    public WhiteListSanitizer(final Collection<String> whiteList_) {
+        _WHITE_LIST = whiteList_;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.alexdforeman.cethrepoh.sanitize.Sanitizer#sanitize(java.util.Collection)
-	 */
-	@Override
-	public void sanitize(Collection<String> collection) {
-		Collection<String> removeStrings = new HashSet<>();
-		for (String string : WHITE_LIST) {
-			if(collection.contains(string)){
-				removeStrings.add(string);
-			}
-		}
-		collection.removeAll(removeStrings);
-	}
+    /**
+     * Adds a String Collection as a WhiteList.
+     * @param whiteList_ String[]
+     */
+    public WhiteListSanitizer(final String[] whiteList_) {
 
+        Collection<String> temp = new HashSet<>();
+        for (String string : whiteList_) {
+            temp.add(string);
+        }
+        _WHITE_LIST = temp;
+    }
+
+    /**
+     * @see com.alexdforeman.cethrepoh.sanitize.Sanitizer#sanitize(java.util.Collection).
+     * @param collection_ Collection<String>
+     */
+    @Override
+    public final void sanitize(final Collection<String> collection_) {
+        Collection<String> removeStrings = new HashSet<>();
+        for (String string : _WHITE_LIST) {
+            if (collection_.contains(string)) {
+                removeStrings.add(string);
+            }
+        }
+        collection_.removeAll(removeStrings);
+    }
 }
