@@ -15,8 +15,7 @@ package com.alexdforeman.cethrepoh.sanitize;
 import java.util.Collection;
 import java.util.HashSet;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

@@ -20,7 +20,7 @@ import com.alexdforeman.cethrepoh.sanitize.Sanitizer;
 
 
 /**
- * WordExtractor abstract impl.
+ * WordExtractor abstract implementation.
  * A lot of inputs are going to be files so we are creating a parent class that returns the specific files into a
  * string form so we can scan the files.
  *
@@ -58,11 +58,11 @@ public abstract class AbstractFileExtractor implements WordExtractor {
 
     /**
      * This runs over all Sanitizers that have been added to the extractor and applys them to the passed Collection.
-     * @param strings Collection<String>
+     * @param strings_ Collection<String>
      */
-    public final void sanitize(final Collection<String> strings) {
+    public final void sanitize(final Collection<String> strings_) {
         for (Sanitizer sanitizer : _SANITIZERS) {
-            sanitizer.sanitize(strings);
+            sanitizer.sanitize(strings_);
         }
     }
 }

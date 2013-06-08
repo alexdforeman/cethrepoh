@@ -21,8 +21,9 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashSet;
 
+import com.google.common.base.Charsets;
+
 /**
- *
  * IosStringsExtractor parses a ios .strings file in the format '"key" = "value";'.
  *
  * @author Alex Foreman at https://github.com/alexdforeman
@@ -47,7 +48,7 @@ public class IosStringsExtractor extends AbstractFileExtractor {
 
         try (final FileInputStream fis = new FileInputStream(getFile());
                 final DataInputStream in = new DataInputStream(fis);
-                final BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+                final BufferedReader br = new BufferedReader(new InputStreamReader(in, Charsets.UTF_8))) {
             String strLine;
             while ((strLine = br.readLine()) != null) {
                 if (!strLine.trim().equals("") && !strLine.trim().startsWith("//")) {

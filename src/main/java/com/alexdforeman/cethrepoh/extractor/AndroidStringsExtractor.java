@@ -18,13 +18,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.ParsingException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,7 +35,7 @@ import nu.xom.ParsingException;
  * @author Alex Foreman at https://github.com/alexdforeman
  */
 public class AndroidStringsExtractor extends AbstractFileExtractor {
-    private Logger _LOGGER = Logger.getLogger(getClass());
+    private Logger _LOGGER = LoggerFactory.getLogger(getClass());
 
     /**
      * Constructor.
@@ -60,8 +61,8 @@ public class AndroidStringsExtractor extends AbstractFileExtractor {
             for (int i = 0; i < children.size(); i++) {
                 strings.addAll(split(children.get(i).getValue()));
             }
-        } catch (ParsingException | IOException e) {
-            e.printStackTrace();
+        } catch (ParsingException | IOException e_) {
+            e_.printStackTrace();
         }
         _LOGGER.info("Size of un-sanitized Strings: " + strings.size());
         sanitize(strings);
@@ -73,9 +74,9 @@ public class AndroidStringsExtractor extends AbstractFileExtractor {
      * Converts a string into all its component words.
      * TODO update to the new Sanitizer API
      */
-    private Set<String> split(final String value) {
+    private Set<String> split(final String value_) {
         Set<String> set = new HashSet<>();
-        String[] split = value.trim().split("\\s");
+        String[] split = value_.trim().split("\\s");
         for (String string : split) {
             if (!string.equals("")) {
                 set.add(string.toLowerCase());

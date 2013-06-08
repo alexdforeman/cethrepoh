@@ -12,16 +12,20 @@
 */
 package com.alexdforeman.cethrepoh.output;
 
-import java.io.PrintWriter;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
- * A Impl of Output Generator which just pushes the map to System.out.
+ * A Implementation of Output Generator which just pushes the map to System.out.
  *
  * @author Alex Foreman at https://github.com/alexdforeman
  */
 public class StandardOutputGenerator implements OutputGenerator {
+
+    private Logger _LOGGER = LoggerFactory.getLogger(getClass());
 
     /**
      * @see com.alexdforeman.cethrepoh.output.OutputGenerator#outputCorrections(java.util.Map)
@@ -29,18 +33,10 @@ public class StandardOutputGenerator implements OutputGenerator {
      */
     public final void outputCorrections(final Map<String, Object> corrections_) {
 
-        StringBuffer buffer = new StringBuffer();
         for (Map.Entry<String, Object> entry : corrections_.entrySet()) {
-            buffer.append(entry.getKey());
-
             if (entry.getValue() != null) {
-                buffer.append(" -> ");
-                buffer.append(entry.getValue());
+                _LOGGER.error(entry.getKey() + " -> " + entry.getValue());
             }
-            buffer.append("\n");
         }
-        PrintWriter out = new PrintWriter(System.out, true);
-        out.write(buffer.toString());
-        out.close();
     }
 }

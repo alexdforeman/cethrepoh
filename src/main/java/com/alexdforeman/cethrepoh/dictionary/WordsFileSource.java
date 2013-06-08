@@ -19,7 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -35,7 +36,7 @@ import com.google.common.io.Files;
  */
 public class WordsFileSource implements DictionarySource {
 
-    private Logger _LOGGER = Logger.getLogger(getClass());
+    private Logger _LOGGER = LoggerFactory.getLogger(getClass());
 
     private File _dictionary;
 
@@ -79,8 +80,8 @@ public class WordsFileSource implements DictionarySource {
             for (String string : lines) {
                 strings.add(string.trim().toLowerCase());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException e_) {
+            e_.printStackTrace();
         }
         _LOGGER.info("Size of returned Dictionary: " + strings.size());
         return strings;

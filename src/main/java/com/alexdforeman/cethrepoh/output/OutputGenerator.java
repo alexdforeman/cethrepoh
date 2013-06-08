@@ -24,7 +24,7 @@ public interface OutputGenerator {
 
     /**
      * Take in a Map of corrections that we want to return, and outputs them somehow.
-     * @param wrongWords Map<String,Object>
+     * @param wrongWords_ Map<String,Object>
      */
-    void outputCorrections(Map<String, Object> wrongWords);
+    void outputCorrections(Map<String, Object> wrongWords_);
 }

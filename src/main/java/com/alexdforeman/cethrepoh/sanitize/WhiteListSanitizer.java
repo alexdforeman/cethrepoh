@@ -17,21 +17,21 @@ import java.util.HashSet;
 
 /**
  *
- * This class takes a list of whitelisted words that you want to remove from the spell check as they are 'correct'.
+ * This class takes a list of white listed words that you want to remove from the spell check as they are 'correct'.
  * Examples of this might be 'google'
  *
  * @author Alex Foreman at https://github.com/alexdforeman
  */
 public class WhiteListSanitizer implements Sanitizer {
 
-    private final Collection<String> _WHITE_LIST;
+    private final Collection<String> _WHITELIST;
 
     /**
      * Adds a String Collection as a WhiteList.
      * @param whiteList_ Collection<String>
      */
     public WhiteListSanitizer(final Collection<String> whiteList_) {
-        _WHITE_LIST = whiteList_;
+        _WHITELIST = whiteList_;
     }
 
     /**
@@ -44,7 +44,7 @@ public class WhiteListSanitizer implements Sanitizer {
         for (String string : whiteList_) {
             temp.add(string);
         }
-        _WHITE_LIST = temp;
+        _WHITELIST = temp;
     }
 
     /**
@@ -54,7 +54,7 @@ public class WhiteListSanitizer implements Sanitizer {
     @Override
     public final void sanitize(final Collection<String> collection_) {
         Collection<String> removeStrings = new HashSet<>();
-        for (String string : _WHITE_LIST) {
+        for (String string : _WHITELIST) {
             if (collection_.contains(string)) {
                 removeStrings.add(string);
             }

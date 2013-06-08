@@ -45,8 +45,5 @@ public class PunctuationSanitizer implements Sanitizer {
         sanitizedStrings.remove("");
         collection_.clear();
         collection_.addAll(sanitizedStrings);
-
-
     }
-
 }

@@ -15,10 +15,10 @@
     <message>
         <source>seplt wrongyl</source>
         <translation type="unfinished"></translation>
-    </message>    
+    </message>
     <message>
         <source>This is a long String</source>
         <translation type="unfinished"></translation>
-    </message>      
+    </message>
 </context>
 </TS>
