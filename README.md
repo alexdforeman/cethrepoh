@@ -1,6 +1,8 @@
 cethrepoh
 =========
 
+Please use the ruby branch this will be master when I bother to swap them.  Having said that Java version is working perfectly as well.  Just a recommendation to use the ruby branch.
+
 A generic spellchecker for production applications and websites.  Or any sources that you desire.
 
 
